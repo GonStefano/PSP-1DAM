@@ -1,6 +1,10 @@
 class Salon{
-    private int numero;
-    private int aforoMax=5;
+    private int numero=0;
+    private int aforoMax;
+
+    public Salon(int aforoMax){
+        this.aforoMax = aforoMax;
+    }
 
     public synchronized void entrar(int n){
         
@@ -14,18 +18,11 @@ class Salon{
         numero++;
         System.out.println("Cliente "+n+" entra a la sala de entrenamiento");
 
-        notifyAll();
     }
 
 
     public synchronized void salir(int n){
 
-        while (numero==0) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-            }
-        }
         numero--;
         System.out.println("Cliente "+n+" saliendo de la sala");
         notifyAll();
@@ -55,7 +52,7 @@ class Cliente extends Thread{
 public class Sala_Ejecutar {
     public static void main(String[] args) {
         Thread clientes[] = new Thread[20];
-        Salon c = new Salon();
+        Salon c = new Salon(5);
 
         for (int i = 0; i < clientes.length; i++) {
             clientes[i] = new Cliente(c, i+1);
