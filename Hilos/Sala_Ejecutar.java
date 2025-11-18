@@ -50,14 +50,19 @@ class Cliente extends Thread{
 }
 
 public class Sala_Ejecutar {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Thread clientes[] = new Thread[20];
         Salon c = new Salon(5);
-
+        System.out.println("Gimnasio abierto");
         for (int i = 0; i < clientes.length; i++) {
             clientes[i] = new Cliente(c, i+1);
 
             clientes[i].start();
         }
+
+        for (int i = 0; i < clientes.length; i++) {
+            clientes[i].join();
+        }
+        System.out.println("gimnasio cerrado");
     }
 }
